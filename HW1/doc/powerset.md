@@ -17,12 +17,7 @@ P(S) := {U|U⊆ S}
 - {b, c}
 - {a, b, c}
 
-此函數定義:
-A(m,n) = 當m = 0，n + 1;
-         當m > 0 且 n = 0，A(m – 1, 1);
-         當m > 0 且 n > 0，A(m – 1, A(m, n - 1));
-
-實作參見檔案 `ack.cpp`，其遞迴函式：
+實作參見檔案 `combine.cpp`，其遞迴函式：
 
 ```cpp
 int ack(int m, int n)
