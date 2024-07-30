@@ -1,63 +1,53 @@
 #include <iostream>
 using namespace std;
 
-// »¼Âk¨ç¼Æ¨Ó¥Í¦¨¾­¶°
-void generatePowerset(char* set, char** powerset, char* current, int index, int size, int& powersetIndex, int currentSize) {
-    if (index == size) {
-        // ±N current ªº¤º®e½Æ»s¨ì powerset
+void generatePowerset(char* set, char** powerset, char* current, int index, int size, int& powersetIndex, int currentSize) 
+{
+    if (index == size) 
+    {
         powerset[powersetIndex] = new char[currentSize + 1];
-        for (int i = 0; i < currentSize; ++i) {
+        for (int i = 0; i < currentSize; ++i) 
+        {
             powerset[powersetIndex][i] = current[i];
         }
-        powerset[powersetIndex][currentSize] = '\0';  // null terminate the string
+        powerset[powersetIndex][currentSize] = '\0';
         powersetIndex++;
         return;
     }
-
-    // ¤£¥]¬A·í«e¤¸¯À
     generatePowerset(set, powerset, current, index + 1, size, powersetIndex, currentSize);
-
-    // ¥]¬A·í«e¤¸¯À
     current[currentSize] = set[index];
     generatePowerset(set, powerset, current, index + 1, size, powersetIndex, currentSize + 1);
 }
 
-int main() {
+int main() 
+{
     int n;
     cout << "set_size:";
     cin >> n;
-
-    // ¨Ï¥Î new °ÊºA¤À°t¤º¦s
     char* S = new char[n];
-    cout << "¿é¤J¶°¦Xªº¤¸¯À:";
-    for (int i = 0; i < n; ++i) {
+    cout << "è¼¸å…¥é›†åˆçš„å…ƒç´ :";
+    for (int i = 0; i < n; ++i) 
+    {
         cin >> S[i];
     }
-
-    // ­pºâ¾­¶°ªº¤j¤p
-    int powersetSize = 1 << n;  // 2^n
-
-    // ¨Ï¥Î new °ÊºA¤À°t¤º¦s
+    int powersetSize = 1 << n;
     char** powerset = new char* [powersetSize];
     char* current = new char[n];
     int powersetIndex = 0;
-
-    // ¥Í¦¨¾­¶°
     generatePowerset(S, powerset, current, 0, n, powersetIndex, 0);
-
-    // ¿é¥Xµ²ªG
-    for (int i = 0; i < powersetSize; ++i) {
+    for (int i = 0; i < powersetSize; ++i) 
+    {
         cout << "{ ";
-        for (int j = 0; powerset[i][j] != '\0'; ++j) {
+        for (int j = 0; powerset[i][j] != '\0'; ++j) 
+        {
             cout << powerset[i][j] << " ";
         }
         cout << "}" << endl;
-        delete[] powerset[i];  // ÄÀ©ñ°ÊºA¤À°tªº¤º¦s
+        delete[] powerset[i];
     }
 
-    delete[] powerset;  // ÄÀ©ñ°ÊºA¤À°tªº¤º¦s
-    delete[] current;  // ÄÀ©ñ°ÊºA¤À°tªº¤º¦s
-    delete[] S;  // ÄÀ©ñ°ÊºA¤À°tªº¤º¦s
-
+    delete[] powerset;
+    delete[] current;
+    delete[] S;
     return 0;
 }
