@@ -140,4 +140,16 @@ element:a b c
 
 $$S = {a, b, c}$$
 
+計算幂集大小powersetSize = 1 << n
 
+初始化powersetIndex為0
+
+生成幂集呼叫遞回函式
+
+當index == size，建立新子集合並儲存在powerset中
+
+不選擇當前元素，呼叫函式，參數為index + 1以及currentSize
+
+選擇當前元素，加到currentSize，呼叫函式，參數為index + 1以及currentSize + 1
+
+列印幂集，遍歷powerset，列印所有子集合
