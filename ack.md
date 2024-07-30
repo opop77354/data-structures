@@ -31,13 +31,14 @@ int ack(int m, int n)
 ## 2. 演算法設計與實作
 
 ```cpp
-int main(){
-    int n=0;
-    while(cin>>n){             // 一直輸入
-        if(n<=0) break;        // 直到輸入小於等於零
-        cout<<sigma(n)<<"\n";  // 依據每次輸入，輸出 n!
-    }
-    return 0;
+int main()
+{
+	int m;
+	int n;
+	cin >> m;
+	cin >> n;
+	ack(m, n);
+	cout << ack(m, n) << endl;
 }
 ```
 
