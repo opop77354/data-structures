@@ -25,7 +25,7 @@ int main()
     cout << "set_size:";
     cin >> n;
     char* S = new char[n];
-    cout << "輸入集合的元素:";
+    cout << "element:";
     for (int i = 0; i < n; ++i) 
     {
         cin >> S[i];
