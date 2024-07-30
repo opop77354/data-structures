@@ -11,10 +11,20 @@ A(m,n) = 當m = 0，n + 1;
 實作參見檔案 `ack.cpp`，其遞迴函式：
 
 ```cpp
-int sigma(int n){
-    if(n<0) throw "n < 0";
-    else if(n<=1) return n;
-    return n+sigma(n-1);
+int ack(int m, int n)
+{
+	if (m == 0)
+	{
+		return n + 1;
+	}
+	else if (n == 0)
+	{
+		return ack(m - 1, 1);
+	}
+	else
+	{
+		return ack(m - 1, ack(m, n - 1));
+	}
 }
 ```
 
