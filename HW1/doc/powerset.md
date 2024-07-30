@@ -107,15 +107,22 @@ int main()
 ### Input
 
 ```plain
-3
-3
+set_size:3
+element:a b c
 
 ```
 
 ### Output
 
 ```plain
-61
+{ }
+{ c }
+{ b }
+{ b c }
+{ a }
+{ a c }
+{ a b }
+{ a b c }
 
 ```
 
