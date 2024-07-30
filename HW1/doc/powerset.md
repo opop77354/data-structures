@@ -138,7 +138,7 @@ element:a b c
 
 那麼目前集合
 
-$$S = {a, b, c}$$
+S = {a, b, c}
 
 計算幂集大小powersetSize = 1 << n
 
