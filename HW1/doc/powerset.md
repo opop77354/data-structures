@@ -132,8 +132,10 @@ element:a b c
 
 設定集合大小為3
 - set_size:3
+
 再設定集合內的元素
 - element:a b c
+
 那麼目前集合
 
 $$S = {a, b, c}$$
