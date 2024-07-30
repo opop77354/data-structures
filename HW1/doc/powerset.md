@@ -43,14 +43,37 @@ void generatePowerset(char* set, char** powerset, char* current, int index, int 
 ## 2. 演算法設計與實作
 
 ```cpp
-int main()
+int main() 
 {
-	int m;
-	int n;
-	cin >> m;
-	cin >> n;
-	ack(m, n);
-	cout << ack(m, n) << endl;
+    int n;
+    cout << "set_size:";
+    cin >> n;
+    char* S = new char[n];
+    cout << "輸入集合的元素:";
+    for (int i = 0; i < n; ++i) 
+    {
+        cin >> S[i];
+    }
+    int powersetSize = 1 << n;
+    char** powerset = new char* [powersetSize];
+    char* current = new char[n];
+    int powersetIndex = 0;
+    generatePowerset(S, powerset, current, 0, n, powersetIndex, 0);
+    for (int i = 0; i < powersetSize; ++i) 
+    {
+        cout << "{ ";
+        for (int j = 0; powerset[i][j] != '\0'; ++j) 
+        {
+            cout << powerset[i][j] << " ";
+        }
+        cout << "}" << endl;
+        delete[] powerset[i];
+    }
+
+    delete[] powerset;
+    delete[] current;
+    delete[] S;
+    return 0;
 }
 ```
 
