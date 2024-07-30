@@ -20,21 +20,24 @@ P(S) := {U|U⊆ S}
 實作參見檔案 `combine.cpp`，其遞迴函式：
 
 ```cpp
-int ack(int m, int n)
+void generatePowerset(char* set, char** powerset, char* current, int index, int size, int& powersetIndex, int currentSize) 
 {
-	if (m == 0)
-	{
-		return n + 1;
-	}
-	else if (n == 0)
-	{
-		return ack(m - 1, 1);
-	}
-	else
-	{
-		return ack(m - 1, ack(m, n - 1));
-	}
+    if (index == size) 
+    {
+        powerset[powersetIndex] = new char[currentSize + 1];
+        for (int i = 0; i < currentSize; ++i) 
+        {
+            powerset[powersetIndex][i] = current[i];
+        }
+        powerset[powersetIndex][currentSize] = '\0';
+        powersetIndex++;
+        return;
+    }
+    generatePowerset(set, powerset, current, index + 1, size, powersetIndex, currentSize);
+    current[currentSize] = set[index];
+    generatePowerset(set, powerset, current, index + 1, size, powersetIndex, currentSize + 1);
 }
+
 ```
 
 ## 2. 演算法設計與實作
