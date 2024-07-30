@@ -54,17 +54,14 @@ int main()
 
 ```plain
 3
-7
-11
+3
 
 ```
 
 ### Output
 
 ```plain
-6
-28
-66
+61
 
 ```
 
