@@ -249,4 +249,16 @@ B:6x^4 + 2x^3 + x + 8
 
 相加函式:
 
-初始化aPos、bPos = 0，第一次迭代，terms[aPos].exp:terms[bPos].exp = 2 : 4，而 2 < 4，將B前項 6x^4 添加到 c，並將bPos往前一位，bPos = 1;第二次迭代，terms[aPos].exp:terms[bPos].exp = 2 : 3，而 2 < 3，將B前項 2x^3 添加到 c，並將bPos往前一位，bPos = 2;第三次迭代，terms[aPos].exp:terms[bPos].exp = 2 : 1，而 2 < 1，將A前項 3x^2 添加到 c，並將aPos往前一位，aPos = 1;第四次迭代，terms[aPos].exp:terms[bPos].exp = 1 : 1，而 1 = 1，將兩項係數相加 2 + 1 = 3，並將新項 3x^1 添加到 c，並將aPos和bPos都往前一位，aPos = 2, bPos = 3;第五次迭代，terms[aPos].exp:terms[bPos].exp = 0 : 0，而 0 = 0，將兩項係數相加 4 + 8 = 12，並將 12x^0 添加到 c，並將aPos和bPos都往前一位，aPos = 3, bPos = 4，回傳結果6x^4 + 2x^3 + 3x^2 + 3x^1 + 12。
+初始化aPos、bPos = 0，
+
+第一次迭代，terms[aPos].exp:terms[bPos].exp = 2 : 4，而 2 < 4，將B前項 6x^4 添加到 c，並將bPos往前一位，bPos = 1;
+
+第二次迭代，terms[aPos].exp:terms[bPos].exp = 2 : 3，而 2 < 3，將B前項 2x^3 添加到 c，並將bPos往前一位，bPos = 2;
+
+第三次迭代，terms[aPos].exp:terms[bPos].exp = 2 : 1，而 2 < 1，將A前項 3x^2 添加到 c，並將aPos往前一位，aPos = 1;
+
+第四次迭代，terms[aPos].exp:terms[bPos].exp = 1 : 1，而 1 = 1，將兩項係數相加 2 + 1 = 3，並將新項 3x^1 添加到 c，並將aPos和bPos都往前一位，aPos = 2, bPos = 3;
+
+第五次迭代，terms[aPos].exp:terms[bPos].exp = 0 : 0，而 0 = 0，將兩項係數相加 4 + 8 = 12，並將 12x^0 添加到 c，並將aPos和bPos都往前一位，aPos = 3, bPos = 4，
+
+回傳結果6x^4 + 2x^3 + 3x^2 + 3x^1 + 12。
