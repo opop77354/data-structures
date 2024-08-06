@@ -16,7 +16,22 @@ A + B = 6x^4 + 2x^3 + 3x^2 + 3x + 12
 
 A * B = 18x^6 + 18x^5 + 11x^3 + 26x^2 + 28x^4 + 20x^1 + 32
 
+把多項式拆分成個體看，再將每以個體拆分成零件，零件包含項次、係數、指數。
+
 ## 2. 演算法設計與實作
+
+term類別
+
+```cpp
+class Term {
+public:
+    float coef;
+    int exp;
+    Term(float c = 0, int e = 0) : coef(c), exp(e) {}
+};
+```
+
+主程式
 
 ```cpp
 int main() {
