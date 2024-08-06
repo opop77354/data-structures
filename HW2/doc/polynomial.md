@@ -58,6 +58,77 @@ private:
 
 ```
 
+多項式運算-ADD函數
+```cpp
+Polynomial Polynomial::Add(const Polynomial& b) const {
+    Polynomial c(size + b.size);
+
+    int aPos = 0;
+    int bPos = 0;
+
+    while (aPos < size && bPos < b.size) {
+        if (terms[aPos].exp == b.terms[bPos].exp) {
+            float t = terms[aPos].coef + b.terms[bPos].coef;
+            if (t != 0) c.AddTerm(t, terms[aPos].exp);
+            ++aPos;
+            ++bPos;
+        }
+        else if (terms[aPos].exp < b.terms[bPos].exp) {
+            c.AddTerm(b.terms[bPos].coef, b.terms[bPos].exp);
+            ++bPos;
+        }
+        else {
+            c.AddTerm(terms[aPos].coef, terms[aPos].exp);
+            ++aPos;
+        }
+    }
+
+    while (aPos < size) {
+        c.AddTerm(terms[aPos].coef, terms[aPos].exp);
+        ++aPos;
+    }
+
+    while (bPos < b.size) {
+        c.AddTerm(b.terms[bPos].coef, b.terms[bPos].exp);
+        ++bPos;
+    }
+
+    return c;
+}
+
+```
+
+多項式運算-mult
+
+```cpp
+Polynomial Polynomial::Mult(const Polynomial& b) const {
+    Polynomial c(size * b.size);
+
+    for (int i = 0; i < size; ++i) {
+        for (int j = 0; j < b.size; ++j) {
+            float newCoef = terms[i].coef * b.terms[j].coef;
+            int newExp = terms[i].exp + b.terms[j].exp;
+            c.AddOrUpdateTerm(newCoef, newExp);
+        }
+    }
+
+    return c;
+}
+
+```
+多項式代數運算
+
+```cpp
+float Polynomial::Eval(float x) const {
+    float result = 0;
+    for (int i = 0; i < size; ++i) {
+        result += terms[i].coef * pow(x, terms[i].exp);
+    }
+    return result;
+}
+
+```
+
 主程式
 
 ```cpp
