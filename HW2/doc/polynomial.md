@@ -30,6 +30,33 @@ public:
     Term(float c = 0, int e = 0) : coef(c), exp(e) {}
 };
 ```
+polynimial類別
+
+```cpp
+class Polynomial {
+public:
+    Polynomial(int d = 0); // 建構函數
+    ~Polynomial();  // 解構函數
+
+    Polynomial(const Polynomial& other); // 複製建構函數
+    Polynomial& operator=(const Polynomial& other);
+
+    void AddTerm(float coef, int exp);
+    Polynomial Add(const Polynomial& b) const;
+    Polynomial Mult(const Polynomial& b) const;
+    float Eval(float x) const;
+    void Output() const;
+
+private:
+    Term* terms;
+    int size; // 當前多項式項數
+    int capacity; // 當前陣列容量
+
+    void Resize(int new_capacity);
+    void AddOrUpdateTerm(float coef, int exp); // 合併或更新項
+};
+
+```
 
 主程式
 
