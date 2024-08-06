@@ -19,14 +19,66 @@ A * B =
 ## 2. 演算法設計與實作
 
 ```cpp
-int main()
-{
-	int m;
-	int n;
-	cin >> m;
-	cin >> n;
-	ack(m, n);
-	cout << ack(m, n) << endl;
+int main() {
+    int numTerms1, numTerms2;
+
+    cout << "terms for polynomial 1: ";
+    cin >> numTerms1;
+    Polynomial p1(numTerms1);
+
+    cout << "coef for polynomial 1: ";
+    float* coefs1 = new float[numTerms1];
+    for (int i = 0; i < numTerms1; ++i) {
+        cin >> coefs1[i];
+    }
+
+    cout << "exp for polynomial 1: ";
+    int* exps1 = new int[numTerms1];
+    for (int i = 0; i < numTerms1; ++i) {
+        cin >> exps1[i];
+        p1.AddTerm(coefs1[i], exps1[i]);
+    }
+
+    cout << "terms for polynomial 2: ";
+    cin >> numTerms2;
+    Polynomial p2(numTerms2);
+
+    cout << "coef for polynomial 2: ";
+    float* coefs2 = new float[numTerms2];
+    for (int i = 0; i < numTerms2; ++i) {
+        cin >> coefs2[i];
+    }
+
+    cout << "exp for polynomial 2: ";
+    int* exps2 = new int[numTerms2];
+    for (int i = 0; i < numTerms2; ++i) {
+        cin >> exps2[i];
+        p2.AddTerm(coefs2[i], exps2[i]);
+    }
+
+    Polynomial p3 = p1.Add(p2);
+    Polynomial p4 = p1.Mult(p2);
+
+    cout << "Polynomial 1: ";
+    p1.Output();
+    cout << "Polynomial 2: ";
+    p2.Output();
+    cout << "p1 + p2: ";
+    p3.Output();
+    cout << "p1 * p2: ";
+    p4.Output();
+
+    float x;
+    cout << " value for x to evaluate polynomial 1: ";
+    cin >> x;
+    cout << "p1 evaluated at x = " << x << ": " << p1.Eval(x) << endl;
+
+    delete[] coefs1;
+    delete[] exps1;
+    delete[] coefs2;
+    delete[] exps2;
+
+    return 0;
 }
 ```
 
