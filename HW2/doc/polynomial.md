@@ -290,3 +290,16 @@ B:6x^4 + 2x^3 + x + 8
 當 i = 2，而 j = 3，newcoef = 4 * 8 = 32，newexp = 0 + 0 = 0，產生新項 32 加到 c
 
 回傳結果18x^6 + 18x^5 + 11x^3 + 26x^2 + 28x^4 + 20x^1 + 32
+
+代數運算函式:
+
+初始化result = 0
+
+當 i = 0，terms[0].coef = 3，terms[0].exp = 2，3 * pow(2, 2) = 3 * 4 = 12，result 0 + 12 = 12
+
+當 i = 1，terms[1].coef = 2，terms[1].exp = 1，2 * pow(2, 1) = 2 * 2 = 4，result 12 + 4 = 16
+
+當 i = 2，terms[2].coef = 4，terms[2].exp = 0，4 * pow(2, 0) = 4 * 1 = 4，result 16 + 4 = 20
+
+回傳結果20
+
