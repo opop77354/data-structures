@@ -93,15 +93,24 @@ int main() {
 ### Input
 
 ```plain
-3
-3
+Enter number of terms for polynomial 1: 3
+Enter the coefficients for polynomial 1: 3 2 4
+Enter the exponents for polynomial 1: 2 1 0
+Enter number of terms for polynomial 2: 4
+Enter the coefficients for polynomial 2: 6 2 1 8
+Enter the exponents for polynomial 2: 4 3 1 0
+Enter a value for x to evaluate polynomial 1: 2
 
 ```
 
 ### Output
 
 ```plain
-61
+Polynomial 1: 3x^2+2x^1+4
+Polynomial 2: 6x^4+2x^3+1x^1+8
+p1 + p2: 6x^4+2x^3+3x^2+3x^1+12
+p1 * p2: 18x^6+18x^5+11x^3+26x^2+28x^4+20x^1+32
+p1 evaluated at x = 2: 20
 
 ```
 
