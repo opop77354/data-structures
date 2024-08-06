@@ -262,3 +262,15 @@ B:6x^4 + 2x^3 + x + 8
 第五次迭代，terms[aPos].exp:terms[bPos].exp = 0 : 0，而 0 = 0，將兩項係數相加 4 + 8 = 12，並將 12x^0 添加到 c，並將aPos和bPos都往前一位，aPos = 3, bPos = 4，
 
 回傳結果6x^4 + 2x^3 + 3x^2 + 3x^1 + 12。
+
+乘法函式:
+
+當 i = 0，而 j = 0，newcoef = 3 * 6 = 18，newexp = 2 + 4 = 6，產生新項 18x^6 加到 c。
+
+當 i = 0，而 j = 1，newcoef = 3 * 2 = 6，newexp = 2 + 3 = 5，產生新項 6x^5 加到 c。
+
+當 i = 0，而 j = 2，newcoef = 3 * 1 = 3，newexp = 2 + 1 = 3，產生新項 3x^3 加到 c。
+
+當 i = 0，而 j = 3，newcoef = 3 * 8 = 24，newexp = 2 + 0 = 2，產生新項 24x^2 加到 c。
+
+當 i = 1，而 j = 0，newcoef = 3 * 6 = 18，newexp = 2 + 4 = 6，產生新項 18x^6 加到 c。
