@@ -265,12 +265,28 @@ B:6x^4 + 2x^3 + x + 8
 
 乘法函式:
 
-當 i = 0，而 j = 0，newcoef = 3 * 6 = 18，newexp = 2 + 4 = 6，產生新項 18x^6 加到 c。
+當 i = 0，而 j = 0，newcoef = 3 * 6 = 18，newexp = 2 + 4 = 6，產生新項 18x^6 加到 c
 
-當 i = 0，而 j = 1，newcoef = 3 * 2 = 6，newexp = 2 + 3 = 5，產生新項 6x^5 加到 c。
+當 i = 0，而 j = 1，newcoef = 3 * 2 = 6，newexp = 2 + 3 = 5，產生新項 6x^5 加到 c
 
-當 i = 0，而 j = 2，newcoef = 3 * 1 = 3，newexp = 2 + 1 = 3，產生新項 3x^3 加到 c。
+當 i = 0，而 j = 2，newcoef = 3 * 1 = 3，newexp = 2 + 1 = 3，產生新項 3x^3 加到 c
 
-當 i = 0，而 j = 3，newcoef = 3 * 8 = 24，newexp = 2 + 0 = 2，產生新項 24x^2 加到 c。
+當 i = 0，而 j = 3，newcoef = 3 * 8 = 24，newexp = 2 + 0 = 2，產生新項 24x^2 加到 c
 
-當 i = 1，而 j = 0，newcoef = 3 * 6 = 18，newexp = 2 + 4 = 6，產生新項 18x^6 加到 c。
+當 i = 1，而 j = 0，newcoef = 2 * 6 = 12，newexp = 1 + 4 = 5，產生新項 12x^5 加到 c，合併到 6x^5，為 18x^5
+
+當 i = 1，而 j = 1，newcoef = 2 * 2 = 4，newexp = 1 + 3 = 4，產生新項 4x^4 加到 c
+
+當 i = 1，而 j = 2，newcoef = 2 * 1 = 2，newexp = 1 + 1 = 2，產生新項 2x^2 加到 c，合併到 24x^5，為 26x^5
+
+當 i = 1，而 j = 3，newcoef = 2 * 8 = 16，newexp = 1 + 0 = 1，產生新項 16x^1 加到 c
+
+當 i = 2，而 j = 0，newcoef = 4 * 6 = 24，newexp = 0 + 4 = 4，產生新項 24x^4 加到 c，合併到 4x^4，為 28x^4
+
+當 i = 2，而 j = 1，newcoef = 4 * 2 = 8，newexp = 0 + 3 = 3，產生新項 8x^3 加到 c，合併到 3x^3，為 11x^3
+
+當 i = 2，而 j = 2，newcoef = 4 * 1 = 4，newexp = 0 + 1 = 1，產生新項 4x^1 加到 c，合併到 16x^1，為 20x^1
+
+當 i = 2，而 j = 3，newcoef = 4 * 8 = 32，newexp = 0 + 0 = 0，產生新項 32 加到 c
+
+回傳結果18x^6 + 18x^5 + 11x^3 + 26x^2 + 28x^4 + 20x^1 + 32
