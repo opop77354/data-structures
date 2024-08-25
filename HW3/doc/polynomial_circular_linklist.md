@@ -348,4 +348,18 @@ Difference(2) = (3(2)^2 + 2(2)^1 + 1) - (3(2)^1) = 3(2)^2 - 1(2)^1 + 1 = 11
 
 Product(2) = (3(2)^2 + 2(2)^1 + 1) * (3(2)^1) = 9(2)^3 + 6(2)^2 + 3(2)^1 = 102
 
-istream& operator>>函式透過逐項讀取係數和指數，並將每項加入到多項式的鏈結。初始化變數 coef 和 exp 來存儲讀取到的係數和指數，使用迴圈不斷從輸入流中讀取 coef 和 exp，直到讀取到 0 0 為止。如果 coef 不為零，則調用 newTerm 函數將該項目加入到多項式中。
+istream& operator>>函式透過逐項讀取係數和指數，並將每項加入到多項式的鏈結，初始化變數 coef 和 exp 來存儲讀取到的係數和指數，使用迴圈不斷從輸入流中讀取 coef 和 exp，直到讀取到 0 0 為止，如果 coef 不為零，則調用 newTerm 函數將該項目加入到多項式中。
+
+ostream& operator<<函式透過遍歷多項式的環狀串列，構建出多項式的字串表示，並輸出，檢查多項式是否為空（first 是否為 nullptr），如果是空的，輸出 0，遍歷鏈表中的每個 Term，依次輸出其係數和指數，根據係數的正負在項目之間插入適當的正負符號，處理第一項時，不需要插入符號；若係數為負數，直接輸出負號。
+
+void Polynomial::newTerm函式確保新項目能夠正確地加入到多項式的鏈結，並保持項目按指數降冪排列，如果 coef 為零，直接返回，不插入任何項目，如果多項式為空，則將新項作為第一個項目，並形成環狀串列，如果多項式不為空，則遍歷鏈表查找適當的位置，如果找到具有相同指數的項目，則更新其係數，如果更新後係數為零，則刪除此項；如果未找到相同指數的項目，則在適當位置插入新項。
+
+void Polynomial::copy函式遍歷來源多項式 a 的每個項目，並通過 newTerm 插入到目標多項式 *this 中，完成拷貝。檢查 a 是否為空，如果是空的，將 *this 設為空，遍歷 a 的環狀串列，對每個項使用 newTerm 將其加入到 *this 中。
+
+const Polynomial& Polynomial::operator=函式通過清空目標多項式後再複製來源多項式的內容，實現賦值操作，如果 *this 和 a 是同一個對象，則直接返回 *this。使用 clear 函數清空 *this，使用 copy 函數將 a 的內容複製到 *this 中。
+
+Polynomial Polynomial::operator+函式將兩個多項式中相同指數的項合併，並返回一個新的多項式作為結果，創建一個新的 Polynomial result，遍歷 *this 的每個項，將其加入到 result 中，遍歷 b 的每個項，將其加入到 result 中。
+
+Polynomial Polynomial::operator-函式通過將 b 取負後進行加法運算，實現減法操作，創建一個新的 Polynomial negB，將 b 的每個項取負，將 *this 和 negB 相加，得到結果。
+
+Polynomial Polynomial::operator*函式通過對兩個多項式中的每一項乘法運算，創建一個新的 Polynomial result，對 *this 和 b 的每個項進行配對相乘，將結果的 coef 和 exp 通過 newTerm 函數插入 result 中。
