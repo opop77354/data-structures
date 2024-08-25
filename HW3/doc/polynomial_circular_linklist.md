@@ -92,85 +92,172 @@ ostream& operator<<(ostream& os, const Polynomial& x) {
     return os;
 }
 ```
-多項式代數運算
+Polynomial::Polynomial(const Polynomial& a):將多項式 *this 初始化為多項式 a。
 
 ```cpp
-float Polynomial::Eval(float x) const {
-    float result = 0;
-    for (int i = 0; i < size; ++i) {
-        result += terms[i].coef * pow(x, terms[i].exp);
+void Polynomial::copy(const Polynomial& a) {
+    if (!a.first) {
+        first = nullptr;
+        return;
     }
+
+    Term* current = a.first;
+    do {
+        newTerm(current->coef, current->exp);
+        current = current->next;
+    } while (current != a.first);
+}
+
+Polynomial::Polynomial(const Polynomial& a) : first(nullptr) {
+    copy(a);
+}
+```
+
+const Polynomial& Polynomial::operator=(const Polynomial& a):將多項式 a 賦值給 *this。
+
+```cpp
+const Polynomial& Polynomial::operator=(const Polynomial& a) {
+    if (this == &a) return *this;
+
+    clear();
+    copy(a);
+    return *this;
+}
+```
+
+Polynomial::~Polynomial():將多項式 *this 的所有節點傳回可用空間清單。
+
+```cpp
+Polynomial::~Polynomial() {
+    clear();
+}
+
+void Polynomial::clear() {
+    if (!first) return;
+
+    Term* current = first;
+    Term* next = nullptr;
+    do {
+        next = current->next;
+        delete current;
+        current = next;
+    } while (current != first);
+
+    first = nullptr;
+}
+
+```
+
+
+Polynomial Polynomial::operator+(const Polynomial& b) const:建立並傳回多項式*this + b。
+```cpp
+Polynomial Polynomial::operator+(const Polynomial& b) const {
+    Polynomial result;
+    Term* current = first;
+    do {
+        result.newTerm(current->coef, current->exp);
+        current = current->next;
+    } while (current != first);
+
+    current = b.first;
+    do {
+        result.newTerm(current->coef, current->exp);
+        current = current->next;
+    } while (current != b.first);
+
     return result;
 }
 
 ```
 
-主程式
 
+Polynomial Polynomial::operator-(const Polynomial& b) const:建立並傳回多項式*this - b。
+```cpp
+Polynomial Polynomial::operator-(const Polynomial& b) const {
+    Polynomial negB;
+    Term* current = b.first;
+    do {
+        negB.newTerm(-current->coef, current->exp);
+        current = current->next;
+    } while (current != b.first);
+
+    return *this + negB;
+}
+
+```
+
+
+Polynomial Polynomial::operator*(const Polynomial& b) const:建立並傳回多項式*this * b。
+```cpp
+Polynomial Polynomial::operator*(const Polynomial& b) const {
+    Polynomial result;
+    if (!first || !b.first) return result;  // Handle empty polynomials
+
+    Term* a = first;
+    do {
+        Term* bPtr = b.first;
+        do {
+            result.newTerm(a->coef * bPtr->coef, a->exp + bPtr->exp);
+            bPtr = bPtr->next;
+        } while (bPtr != b.first);
+        a = a->next;
+    } while (a != first);
+
+    return result;
+}
+
+```
+
+
+float Polynomial::Evaluate(float x) const:計算 x 處的多項式 *this 並傳回結果。
+```cpp
+
+float Polynomial::Evaluate(float x) const {
+    float result = 0.0;
+    Term* current = first;
+    do {
+        result += current->coef * pow(x, current->exp);
+        current = current->next;
+    } while (current != first);
+    return result;
+}
+
+```
+
+
+主程式
 ```cpp
 int main() {
-    int numTerms1, numTerms2;
+    Polynomial p1, p2;
+    cout << "polynomial_1 :" << endl;
+    cin >> p1;
+    cout << "polynomial_2 :" << endl;
+    cin >> p2;
 
-    cout << "terms for polynomial 1: ";
-    cin >> numTerms1;
-    Polynomial p1(numTerms1);
+    Polynomial sum = p1 + p2;
+    Polynomial diff = p1 - p2;
+    Polynomial prod = p1 * p2;
 
-    cout << "coef for polynomial 1: ";
-    float* coefs1 = new float[numTerms1];
-    for (int i = 0; i < numTerms1; ++i) {
-        cin >> coefs1[i];
-    }
-
-    cout << "exp for polynomial 1: ";
-    int* exps1 = new int[numTerms1];
-    for (int i = 0; i < numTerms1; ++i) {
-        cin >> exps1[i];
-        p1.AddTerm(coefs1[i], exps1[i]);
-    }
-
-    cout << "terms for polynomial 2: ";
-    cin >> numTerms2;
-    Polynomial p2(numTerms2);
-
-    cout << "coef for polynomial 2: ";
-    float* coefs2 = new float[numTerms2];
-    for (int i = 0; i < numTerms2; ++i) {
-        cin >> coefs2[i];
-    }
-
-    cout << "exp for polynomial 2: ";
-    int* exps2 = new int[numTerms2];
-    for (int i = 0; i < numTerms2; ++i) {
-        cin >> exps2[i];
-        p2.AddTerm(coefs2[i], exps2[i]);
-    }
-
-    Polynomial p3 = p1.Add(p2);
-    Polynomial p4 = p1.Mult(p2);
-
-    cout << "Polynomial 1: ";
-    p1.Output();
-    cout << "Polynomial 2: ";
-    p2.Output();
-    cout << "p1 + p2: ";
-    p3.Output();
-    cout << "p1 * p2: ";
-    p4.Output();
+    cout << "Polynomial 1: " << p1 << endl;
+    cout << "Polynomial 2: " << p2 << endl;
+    cout << "Sum: " << sum << endl;
+    cout << "Difference: " << diff << endl;
+    cout << "Product: " << prod << endl;
 
     float x;
-    cout << " value for x to evaluate polynomial 1: ";
+    cout << "value_x: ";
     cin >> x;
-    cout << "p1 evaluated at x = " << x << ": " << p1.Eval(x) << endl;
 
-    delete[] coefs1;
-    delete[] exps1;
-    delete[] coefs2;
-    delete[] exps2;
+    cout << "p1(" << x << ") = " << p1.Evaluate(x) << endl;
+    cout << "p2(" << x << ") = " << p2.Evaluate(x) << endl;
+    cout << "Sum(" << x << ") = " << sum.Evaluate(x) << endl;
+    cout << "Difference(" << x << ") = " << diff.Evaluate(x) << endl;
+    cout << "Product(" << x << ") = " << prod.Evaluate(x) << endl;
 
     return 0;
 }
-```
 
+```
 ## 3. 效能分析
 建構函數:
 - 時間複雜度O(1)，初始化並分配空間
