@@ -3,105 +3,94 @@
 
 ## 1. 解題說明
 
-這些函數實作了多項式的基本操作。通過使用帶有頭節點的循環列表來表示多項式，我們可以有效地進行加法、減法、乘法等運算。使用 istream 和 ostream 運算子重載，使多項式的輸入輸出變得簡單直觀。複製建構子和賦值運算子確保多項式對象在複製和賦值時的正確操作，而析構函數則負責釋放內存，避免內存洩漏。最後，Evaluate 函數可以快速計算多項式在指定值處的結果。
+這些函數實作了多項式的基本運算。通過使用帶有頭節點的循環列表來表示多項式，我們可以進行加、減、乘法等運算。使用 istream 和 ostream 運算多載子，使多項式的輸入輸出變得簡單。複製建構子和賦值運算子確保多項式對象在複製和賦值時的正確操作，而解構函數則負責釋放內存，避免內存洩漏。最後，Evaluate 函數可以快速計算多項式在代入值的結果。
 
 ## 2. 演算法設計與實作
 
 term類別
 
 ```cpp
-class Term {
-public:
+struct Term {
     float coef;
     int exp;
-    Term(float c = 0, int e = 0) : coef(c), exp(e) {}
+    Term* next;
 };
 ```
 polynimial類別
 
 ```cpp
 class Polynomial {
-public:
-    Polynomial(int d = 0); // 建構函數
-    ~Polynomial();  // 解構函數
-
-    Polynomial(const Polynomial& other); // 複製建構函數
-    Polynomial& operator=(const Polynomial& other);
-
-    void AddTerm(float coef, int exp);
-    Polynomial Add(const Polynomial& b) const;
-    Polynomial Mult(const Polynomial& b) const;
-    float Eval(float x) const;
-    void Output() const;
-
+    friend ostream& operator<<(ostream& os, const Polynomial& x);
+    friend istream& operator>>(istream& is, Polynomial& x);
 private:
-    Term* terms;
-    int size; // 當前多項式項數
-    int capacity; // 當前陣列容量
-
-    void Resize(int new_capacity);
-    void AddOrUpdateTerm(float coef, int exp); // 合併或更新項
+    Term* first;
+    void copy(const Polynomial& a);
+    void clear();
+public:
+    Polynomial() : first(nullptr) {}
+    Polynomial(const Polynomial& a);
+    ~Polynomial();
+    const Polynomial& operator=(const Polynomial& a);
+    Polynomial operator+(const Polynomial& b) const;
+    Polynomial operator-(const Polynomial& b) const;
+    Polynomial operator*(const Polynomial& b) const;
+    float Evaluate(float x) const;
+    void newTerm(float coef, int exp);
 };
 
 ```
 
-多項式運算-ADD函數
+istream& operator>>(istream& is, Polynomial& x):讀入輸入多項式並使用頭節點將其轉換為其循環列表表示。
 ```cpp
-Polynomial Polynomial::Add(const Polynomial& b) const {
-    Polynomial c(size + b.size);
-
-    int aPos = 0;
-    int bPos = 0;
-
-    while (aPos < size && bPos < b.size) {
-        if (terms[aPos].exp == b.terms[bPos].exp) {
-            float t = terms[aPos].coef + b.terms[bPos].coef;
-            if (t != 0) c.AddTerm(t, terms[aPos].exp);
-            ++aPos;
-            ++bPos;
-        }
-        else if (terms[aPos].exp < b.terms[bPos].exp) {
-            c.AddTerm(b.terms[bPos].coef, b.terms[bPos].exp);
-            ++bPos;
-        }
-        else {
-            c.AddTerm(terms[aPos].coef, terms[aPos].exp);
-            ++aPos;
-        }
+istream& operator>>(istream& is, Polynomial& x) {
+    float coef;
+    int exp;
+    while (true) {
+        is >> coef >> exp;
+        if (coef == 0 && exp == 0) break;  // 終止條件
+        if (coef != 0) x.newTerm(coef, exp);
     }
-
-    while (aPos < size) {
-        c.AddTerm(terms[aPos].coef, terms[aPos].exp);
-        ++aPos;
-    }
-
-    while (bPos < b.size) {
-        c.AddTerm(b.terms[bPos].coef, b.terms[bPos].exp);
-        ++bPos;
-    }
-
-    return c;
+    return is;
 }
 
 ```
 
-多項式運算-mult
+ostream& operator<<(ostream& os, Polynomial& x):將 x 從其鍊錶表示轉換為其外部表示並輸出。
 
 ```cpp
-Polynomial Polynomial::Mult(const Polynomial& b) const {
-    Polynomial c(size * b.size);
-
-    for (int i = 0; i < size; ++i) {
-        for (int j = 0; j < b.size; ++j) {
-            float newCoef = terms[i].coef * b.terms[j].coef;
-            int newExp = terms[i].exp + b.terms[j].exp;
-            c.AddOrUpdateTerm(newCoef, newExp);
-        }
+ostream& operator<<(ostream& os, const Polynomial& x) {
+    if (!x.first) {
+        os << "0";
+        return os;
     }
 
-    return c;
-}
+    Term* current = x.first;
+    bool firstTerm = true;
 
+    do {
+        if (!firstTerm) {
+            if (current->coef > 0) {
+                os << " + ";
+            }
+            else {
+                os << " - ";
+            }
+        }
+        else if (current->coef < 0) {
+            os << "-";
+        }
+
+        os << abs(current->coef);
+        if (current->exp != 0) {
+            os << "x^" << current->exp;
+        }
+
+        firstTerm = false;
+        current = current->next;
+    } while (current != x.first);
+
+    return os;
+}
 ```
 多項式代數運算
 
